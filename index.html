@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>启未教育 Keyway Education | 让每一个孩子走向更远的未来</title>
+    
+    <!-- Fonts: Noto Serif SC (Headings) & Noto Sans SC (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            white: '#FAFAF7',   /* 洁白色：干净纯粹 */
+                            sand: '#E8DFC5',    /* 沙色：温暖柔和 */
+                            yellow: '#F2C24A',  /* 金芥黄：品牌主色/按钮 */
+                            ink: '#263238',     /* 墨灰：文字主色 */
+                            olive: '#7E8B63',   /* 橄榄绿：辅助/强调色 */
+                            lightSand: '#F5F0E6' /* 浅沙色：用于浅色区块背景 */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                        serif: ['"Noto Serif SC"', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(38, 50, 56, 0.05)',
+                        'float': '0 30px 60px -20px rgba(126, 139, 99, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles to enhance the "soft & premium" feel */
+        body {
+            background-color: theme('colors.brand.white');
+            color: theme('colors.brand.ink');
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Language Toggle Logic - Core */
+        html[lang="zh-CN"] .lang-en { display: none !important; }
+        html[lang="en"] .lang-zh { display: none !important; }
+
+        /* Optimize Font for English slightly */
+        html[lang="en"] body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: 0.01em;
+        }
+        html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3, html[lang="en"] h4, html[lang="en"] .font-serif {
+            font-family: 'Georgia', serif;
+        }
+
+        /* Soft gradient text for main headings */
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(90deg, theme('colors.brand.ink'), theme('colors.brand.olive'));
+        }
+
+        /* Subtle pattern background for the hero section */
+        .bg-pattern {
+            background-image: radial-gradient(theme('colors.brand.sand') 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Timeline specific styles */
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 6px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: theme('colors.brand.yellow');
+            border: 4px solid theme('colors.brand.white');
+            box-shadow: 0 0 0 2px theme('colors.brand.sand');
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-6 py-4 flex justify-between items-center backdrop-blur-md bg-brand-white/90 rounded-b-3xl shadow-sm border-b border-brand-sand/30">
+            <div class="flex items-center gap-3 shrink-0">
+                <!-- Logo Image -->
+                <img src="https://raw.githubusercontent.com/NomadZhang/Kiwi/main/assets/images/%E5%90%AF%E6%9C%AA%E6%95%99%E8%82%B2.png" alt="启未教育 Keyway Education" class="h-10 md:h-12 w-auto object-contain" onerror="this.src='https://placehold.co/250x70/F2C24A/263238?text=Keyway+Education+Logo'">
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-8 text-sm font-medium">
+                <a href="#about" class="text-brand-ink hover:text-brand-olive transition-colors">
+                    <span class="lang-zh">关于我们</span><span class="lang-en">About Us</span>
+                </a>
+                <a href="#advantages" class="text-brand-ink hover:text-brand-olive transition-colors">
+                    <span class="lang-zh">核心优势</span><span class="lang-en">Advantages</span>
+                </a>
+                <a href="#courses" class="text-brand-ink hover:text-brand-olive transition-colors">
+                    <span class="lang-zh">课程体系</span><span class="lang-en">Curriculum</span>
+                </a>
+                <a href="chinese.html" class="text-brand-ink hover:text-brand-olive transition-colors">
+                    <span class="lang-zh">启未华文</span><span class="lang-en">Keyway Chinese</span>
+                </a>
+                
+                <!-- Language Switcher Component -->
+                <div class="relative ml-2 shrink-0">
+                    <button id="lang-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-brand-sand shadow-sm bg-white hover:bg-brand-lightSand transition-colors text-brand-ink focus:outline-none focus:ring-2 focus:ring-brand-olive/20">
+                        <span class="lang-zh font-medium">中文</span>
+                        <span class="lang-en font-medium">English</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-brand-ink/60 transition-transform duration-200" id="lang-chevron"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-28 bg-white rounded-xl shadow-lg border border-brand-sand/30 py-1.5 hidden flex-col z-50 transform origin-top-right transition-all opacity-0 scale-95">
+                        <button class="text-left px-4 py-2 text-sm hover:bg-brand-lightSand transition-colors font-medium text-brand-olive lang-opt-zh" onclick="switchLang('zh-CN')">中文</button>
+                        <button class="text-left px-4 py-2 text-sm hover:bg-brand-lightSand transition-colors text-brand-ink lang-opt-en" onclick="switchLang('en')">English</button>
+                    </div>
+                </div>
+
+                <a href="#contact" class="bg-brand-ink text-brand-white px-6 py-2.5 rounded-full hover:bg-brand-olive transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 shrink-0 whitespace-nowrap">
+                    <span class="lang-zh">预约咨询</span><span class="lang-en">Book Now</span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden text-brand-ink text-2xl" id="mobile-menu-btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div class="lg:hidden absolute top-full left-0 w-full bg-brand-white shadow-lg hidden flex-col py-4 px-6 gap-4 border-t border-brand-sand/30" id="mobile-menu">
+            <a href="#about" class="text-brand-ink text-lg py-2 border-b border-brand-sand/20">
+                <span class="lang-zh">关于我们</span><span class="lang-en">About Us</span>
+            </a>
+            <a href="#advantages" class="text-brand-ink text-lg py-2 border-b border-brand-sand/20">
+                <span class="lang-zh">核心优势</span><span class="lang-en">Advantages</span>
+            </a>
+            <a href="#courses" class="text-brand-ink text-lg py-2 border-b border-brand-sand/20">
+                <span class="lang-zh">课程体系</span><span class="lang-en">Curriculum</span>
+            </a>
+            <a href="chinese.html" class="text-brand-ink text-lg py-2 border-b border-brand-sand/20">
+                <span class="lang-zh">启未华文</span><span class="lang-en">Keyway Chinese</span>
+            </a>
+            <div class="flex gap-4 py-2 border-b border-brand-sand/20">
+                <button class="flex-1 py-2 rounded-lg border border-brand-sand font-medium text-brand-olive bg-brand-lightSand" onclick="switchLang('zh-CN')">中文</button>
+                <button class="flex-1 py-2 rounded-lg border border-brand-sand text-brand-ink hover:bg-brand-lightSand" onclick="switchLang('en')">English</button>
+            </div>
+            <a href="#contact" class="text-center bg-brand-ink text-brand-white px-6 py-3 rounded-xl mt-2">
+                <span class="lang-zh">预约咨询</span><span class="lang-en">Book Consultation</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-32 px-6 overflow-hidden bg-brand-white">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-lightSand rounded-full mix-blend-multiply filter blur-3xl opacity-50 transform translate-x-1/3 -translate-y-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#f0ebd8] rounded-full mix-blend-multiply filter blur-3xl opacity-40 transform -translate-x-1/4 translate-y-1/4"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <!-- Text Content -->
+            <div class="max-w-2xl">
+                <div class="inline-block px-4 py-1.5 rounded-full bg-brand-sand/30 border border-brand-sand text-brand-olive text-sm font-medium mb-6 backdrop-blur-sm">
+                    <span class="lang-zh">专注服务新加坡新移民家庭</span>
+                    <span class="lang-en">Dedicated to New Immigrant Families in SG</span>
+                </div>
+                <h2 class="text-5xl lg:text-[4.5rem] font-serif font-bold text-brand-ink leading-[1.15] mb-6">
+                    <span class="lang-zh">让每一个孩子，<br>从<span class="text-brand-yellow">0</span>到<span class="text-brand-yellow">1</span>，<br>走向更远的未来。</span>
+                    <span class="lang-en">Empowering every child,<br>from <span class="text-brand-yellow">0</span> to <span class="text-brand-yellow">1</span>,<br>and beyond.</span>
+                </h2>
+                <p class="text-lg text-brand-ink/80 mb-10 leading-relaxed max-w-lg">
+                    <span class="lang-zh">构建从语言突破到学术跃迁的一站式成长体系。我们不仅关注成绩提升，更注重学习能力、思维方式与长期成长路径的系统搭建。</span>
+                    <span class="lang-en">Building a one-stop growth system from language breakthroughs to academic leaps. We focus on enhancing grades, learning abilities, and long-term pathway planning.</span>
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#courses" class="bg-brand-yellow text-brand-ink font-medium px-8 py-4 rounded-full hover:bg-yellow-400 transition-all duration-300 shadow-float hover:-translate-y-1 text-center whitespace-nowrap">
+                        <span class="lang-zh">探索课程体系</span><span class="lang-en">Explore Programs</span>
+                    </a>
+                    <a href="#contact" class="bg-white border border-brand-sand text-brand-ink font-medium px-8 py-4 rounded-full hover:bg-brand-lightSand transition-all duration-300 text-center whitespace-nowrap">
+                        <span class="lang-zh">免费评估规划</span><span class="lang-en">Free Assessment</span>
+                    </a>
+                </div>
+
+                <!-- Stats embedded in Hero -->
+                <div class="mt-16 flex gap-8 items-center flex-wrap">
+                    <div>
+                        <p class="font-serif text-4xl font-bold text-brand-olive">98<span class="text-2xl">%</span></p>
+                        <p class="text-sm text-brand-ink/60 mt-1">
+                            <span class="lang-zh">剑桥KET/PET通过率</span>
+                            <span class="lang-en">KET/PET Pass Rate</span>
+                        </p>
+                    </div>
+                    <div class="hidden sm:block w-px h-12 bg-brand-sand"></div>
+                    <div>
+                        <p class="font-serif text-4xl font-bold text-brand-olive">95<span class="text-2xl">%</span></p>
+                        <p class="text-sm text-brand-ink/60 mt-1">
+                            <span class="lang-zh">AEIS政府学校通过率</span>
+                            <span class="lang-en">AEIS Gov School Pass Rate</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hero Image -->
+            <div class="relative">
+                <div class="absolute inset-0 bg-brand-yellow rounded-[40px] transform rotate-3 scale-105 opacity-20"></div>
+                <div class="absolute inset-0 border-2 border-brand-olive rounded-[40px] transform -rotate-3 scale-105 opacity-30"></div>
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="" class="rounded-[40px] shadow-2xl relative z-10 object-cover h-[500px] w-full">
+                
+                <!-- Floating Badge -->
+                <div class="absolute -bottom-6 -left-6 bg-white p-5 rounded-2xl shadow-float z-20 flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-olive text-xl">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-brand-ink/60 mb-0.5">
+                            <span class="lang-zh">启发于微</span><span class="lang-en">Inspire in Micro</span>
+                        </p>
+                        <p class="font-serif font-bold text-brand-ink">
+                            <span class="lang-zh">行远于未</span><span class="lang-en">Journey into Future</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 px-6 bg-brand-lightSand">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+            <div class="order-2 lg:order-1 relative">
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="rounded-3xl w-full h-64 object-cover shadow-soft mt-8">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="" class="rounded-3xl w-full h-64 object-cover shadow-soft">
+                </div>
+            </div>
+            <div class="order-1 lg:order-2">
+                <h3 class="text-brand-olive font-medium tracking-widest text-sm uppercase mb-3">About Us</h3>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-brand-ink mb-6 leading-tight">
+                    <span class="lang-zh">更懂新移民家庭的<br>教育规划专家</span>
+                    <span class="lang-en">Education Experts for<br>New Immigrant Families</span>
+                </h2>
+                <p class="text-brand-ink/80 text-lg mb-8 leading-relaxed">
+                    <span class="lang-zh">启未教育（Keyway Education）成立于新加坡，专注于6–16岁学生的英语能力构建与国际学术发展。我们深度理解中国家庭背景与新加坡教育体系的差异，致力于帮助新移民家庭的孩子实现平稳过渡与学术跃升。</span>
+                    <span class="lang-en">Founded in Singapore, Keyway Education specializes in English proficiency and international academic development for students aged 6-16. We deeply understand the transition needs of new immigrant families and bridge the gap to Singapore's education system.</span>
+                </p>
+                <div class="bg-white p-8 rounded-3xl shadow-soft border border-brand-sand/50">
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-4 flex items-center gap-3">
+                        <i class="fa-solid fa-seedling text-brand-olive"></i> 
+                        <span class="lang-zh">核心成长模型</span><span class="lang-en">Core Growth Model</span>
+                    </h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-yellow font-bold mt-1">01</span>
+                            <p class="text-brand-ink/80">
+                                <span class="lang-zh"><strong>语言突破：</strong> 解决零基础或弱基础障碍，快速建立语言自信。</span>
+                                <span class="lang-en"><strong>Language Breakthrough:</strong> Overcome foundational barriers and rapidly build language confidence.</span>
+                            </p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-yellow font-bold mt-1">02</span>
+                            <p class="text-brand-ink/80">
+                                <span class="lang-zh"><strong>学术建立：</strong> 无缝衔接本地或国际学校课程，建立底层学术能力。</span>
+                                <span class="lang-en"><strong>Academic Foundation:</strong> Seamlessly integrate with local or international school curricula.</span>
+                            </p>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-brand-yellow font-bold mt-1">03</span>
+                            <p class="text-brand-ink/80">
+                                <span class="lang-zh"><strong>路径规划：</strong> 升学导向，定制化长期陪伴，确保每一步走得稳健。</span>
+                                <span class="lang-en"><strong>Pathway Planning:</strong> Customized, long-term guidance aimed at steady academic advancement.</span>
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advantages Section -->
+    <section id="advantages" class="py-24 px-6 bg-brand-white bg-pattern">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-4xl mx-auto mb-16">
+                <h3 class="text-brand-olive font-medium tracking-widest text-sm uppercase mb-3">Why Choose Us</h3>
+                <h2 class="text-4xl font-serif font-bold text-brand-ink mb-4">
+                    <span class="lang-zh">我们的核心优势</span><span class="lang-en">Our Core Advantages</span>
+                </h2>
+                <div class="w-16 h-1 bg-brand-yellow mx-auto rounded-full mb-6"></div>
+                <p class="text-brand-ink/70 md:whitespace-nowrap">
+                    <span class="lang-zh">以结果为导向，以系统为支撑，为您的孩子提供最高效的成长路径。</span>
+                    <span class="lang-en">Result-oriented and system-supported to provide the most efficient growth path for your child.</span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-3xl shadow-soft hover:shadow-float transition-all duration-300 border border-brand-sand/40 hover:-translate-y-2 group flex flex-col">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-lightSand flex items-center justify-center text-brand-olive text-2xl mb-6 group-hover:bg-brand-olive group-hover:text-white transition-colors duration-300 shrink-0">
+                        <i class="fa-solid fa-ranking-star"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                        <span class="lang-zh">高效成果导向</span><span class="lang-en">Highly Result-Oriented</span>
+                    </h4>
+                    <p class="text-brand-ink/70 text-sm leading-relaxed grow">
+                        <span class="lang-zh">专注提分与通过率。剑桥KET/PET短期项目高通过率可达98%，AEIS政府学校通过率高达95%。</span>
+                        <span class="lang-en">Focusing on pass rates. KET/PET short-term programs hit a 98% pass rate, and AEIS up to 95%.</span>
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-3xl shadow-soft hover:shadow-float transition-all duration-300 border border-brand-sand/40 hover:-translate-y-2 group flex flex-col">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-lightSand flex items-center justify-center text-brand-olive text-2xl mb-6 group-hover:bg-brand-olive group-hover:text-white transition-colors duration-300 shrink-0">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                        <span class="lang-zh">系统化课程结构</span><span class="lang-en">Systematic Curriculum</span>
+                    </h4>
+                    <p class="text-brand-ink/70 text-sm leading-relaxed grow">
+                        <span class="lang-zh">覆盖英语能力、国际考试、学术能力与升学路径，打通各环节，形成完整教育闭环。</span>
+                        <span class="lang-en">Covering English proficiency, international exams, academics, and pathways to form a complete educational loop.</span>
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-3xl shadow-soft hover:shadow-float transition-all duration-300 border border-brand-sand/40 hover:-translate-y-2 group flex flex-col">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-lightSand flex items-center justify-center text-brand-olive text-2xl mb-6 group-hover:bg-brand-olive group-hover:text-white transition-colors duration-300 shrink-0">
+                        <i class="fa-solid fa-bridge"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                        <span class="lang-zh">新移民适配模型</span><span class="lang-en">Immigrant Adaptability</span>
+                    </h4>
+                    <p class="text-brand-ink/70 text-sm leading-relaxed grow">
+                        <span class="lang-zh">深度洞察中新教育差异，定制化过渡课程，帮助学生克服水土不服，实现快速衔接与适应。</span>
+                        <span class="lang-en">Deep insights into educational differences to provide customized transition courses for rapid adaptation.</span>
+                    </p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-8 rounded-3xl shadow-soft hover:shadow-float transition-all duration-300 border border-brand-sand/40 hover:-translate-y-2 group flex flex-col">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-lightSand flex items-center justify-center text-brand-olive text-2xl mb-6 group-hover:bg-brand-olive group-hover:text-white transition-colors duration-300 shrink-0">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                        <span class="lang-zh">长期成长陪伴</span><span class="lang-en">Long-term Companion</span>
+                    </h4>
+                    <p class="text-brand-ink/70 text-sm leading-relaxed grow">
+                        <span class="lang-zh">不仅是短期的补习，更是从入学到升学的长线护航，提供持续性学术支持，打造可持续学习力。</span>
+                        <span class="lang-en">Not just short-term tutoring, but long-term escorting from admission to higher education with continuous support.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Courses Section -->
+    <section id="courses" class="py-24 px-6 bg-brand-ink text-white relative overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-[-10%] right-[-5%] w-96 h-96 bg-brand-olive/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-brand-yellow/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h3 class="text-brand-yellow font-medium tracking-widest text-sm uppercase mb-3">Curriculum</h3>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-brand-white">
+                        <span class="lang-zh">核心业务板块</span><span class="lang-en">Core Programs</span>
+                    </h2>
+                </div>
+                <p class="text-brand-white/70 max-w-md md:text-right">
+                    <span class="lang-zh">四大核心路径，精准匹配不同阶段、不同升学目标的学生需求。</span>
+                    <span class="lang-en">Four core pathways to precisely match students' needs at different stages and goals.</span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Block 1 -->
+                <div class="bg-white/5 border border-white/10 p-8 lg:p-10 rounded-[32px] backdrop-blur-sm hover:bg-white/10 transition-colors flex flex-col">
+                    <div class="text-brand-yellow text-3xl mb-6"><i class="fa-solid fa-language"></i></div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">
+                        <span class="lang-zh">1. 英语能力与考试体系</span><span class="lang-en">1. English Proficiency & Exams</span>
+                    </h3>
+                    <ul class="space-y-4 text-brand-white/80 mb-6 grow">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">剑桥KET/PET短期项目（<span class="text-brand-yellow font-bold">3–4个月</span>）实现高通过率</span>
+                                <span class="lang-en">KET/PET Short-term Program (<span class="text-brand-yellow font-bold">3-4 Months</span>) with High Pass Rate</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">英文长线阅读与写作能力培养</span><span class="lang-en">Long-term English Reading & Writing</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">学术英语 (Academic English) 体系构建</span><span class="lang-en">Academic English System Development</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-white/10 p-4 rounded-xl text-sm text-brand-white/90 font-medium">
+                        <span class="text-brand-yellow mr-2 lang-zh">核心目标：</span><span class="text-brand-yellow mr-2 lang-en">Goal:</span>
+                        <span class="lang-zh">实现从基础语言能力到高阶学术能力的跃迁。</span><span class="lang-en">Transition from basic language skills to advanced academic abilities.</span>
+                    </div>
+                </div>
+
+                <!-- Block 2 -->
+                <div class="bg-white/5 border border-white/10 p-8 lg:p-10 rounded-[32px] backdrop-blur-sm hover:bg-white/10 transition-colors flex flex-col">
+                    <div class="text-brand-yellow text-3xl mb-6"><i class="fa-solid fa-globe"></i></div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">
+                        <span class="lang-zh">2. 国际学校与入学准备</span><span class="lang-en">2. International School Prep</span>
+                    </h3>
+                    <ul class="space-y-4 text-brand-white/80 mb-6 grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i>
+                            <div>
+                                <span class="lang-zh">CAT4 认知能力测评与专项训练</span><span class="lang-en">CAT4 Cognitive Assessment & Training</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">SLATE / WIDA 国际化英语能力考试</span><span class="lang-en">SLATE / WIDA English Proficiency Exams</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">国际学校入学评估全方位准备</span><span class="lang-en">Comprehensive International School Entrance Prep</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-white/10 p-4 rounded-xl text-sm text-brand-white/90 font-medium">
+                        <span class="text-brand-yellow mr-2 lang-zh">核心目标：</span><span class="text-brand-yellow mr-2 lang-en">Goal:</span>
+                        <span class="lang-zh">帮助学生顺利进入并适应新加坡国际学校体系。</span><span class="lang-en">Help students enter and adapt to Singapore's international school system.</span>
+                    </div>
+                </div>
+
+                <!-- Block 3 -->
+                <div class="bg-white/5 border border-white/10 p-8 lg:p-10 rounded-[32px] backdrop-blur-sm hover:bg-white/10 transition-colors flex flex-col">
+                    <div class="text-brand-yellow text-3xl mb-6"><i class="fa-solid fa-school"></i></div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">
+                        <span class="lang-zh">3. AEIS & 政府学校路径</span><span class="lang-en">3. AEIS & Gov School Pathway</span>
+                    </h3>
+                    <ul class="space-y-4 text-brand-white/80 mb-6 grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">AEIS 英文/数学专项训练与考前冲刺</span><span class="lang-en">AEIS English/Math Specialized Training</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">英文与数学双轨高强度强化</span><span class="lang-en">Intensive Dual-track English & Math</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">政府学校入学后适应性长线辅导</span><span class="lang-en">Long-term Adaptive Tutoring post-admission</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-white/10 p-4 rounded-xl text-sm text-brand-white/90 font-medium">
+                        <span class="text-brand-yellow mr-2 lang-zh">核心目标：</span><span class="text-brand-yellow mr-2 lang-en">Goal:</span>
+                        <span class="lang-zh">打通进入并扎根新加坡政府学校的关键路径。</span><span class="lang-en">Secure the pathway into and root in Singapore government schools.</span>
+                    </div>
+                </div>
+
+                <!-- Block 4 -->
+                <div class="bg-white/5 border border-white/10 p-8 lg:p-10 rounded-[32px] backdrop-blur-sm hover:bg-white/10 transition-colors flex flex-col">
+                    <div class="text-brand-yellow text-3xl mb-6"><i class="fa-solid fa-book-open"></i></div>
+                    <h3 class="text-2xl font-serif font-bold mb-4">
+                        <span class="lang-zh">4. 中文学术与拓展项目</span><span class="lang-en">4. Chinese Academic & Enrichment</span>
+                    </h3>
+                    <ul class="space-y-4 text-brand-white/80 mb-6 grow">
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">IGCSE 慧读慧写 / IB 课程衔接</span><span class="lang-en">IGCSE Smart Read & Write / IB Curriculum Prep</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">国际学生学术陪跑计划</span><span class="lang-en">Academic Mentoring for International Students</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3"><i class="fa-solid fa-check text-brand-yellow mt-1 shrink-0"></i> 
+                            <div>
+                                <span class="lang-zh">寒暑假夏令营 / 综合能力提升</span><span class="lang-en">Summer/Winter Camps & Skills Enhancement</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="bg-white/10 p-4 rounded-xl text-sm text-brand-white/90 font-medium">
+                        <span class="text-brand-yellow mr-2 lang-zh">核心目标：</span><span class="text-brand-yellow mr-2 lang-en">Goal:</span>
+                        <span class="lang-zh">构建真正具备竞争力的学习能力与国际视野。</span><span class="lang-en">Build competitive learning abilities and international perspectives.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keyway Chinese Section -->
+    <section id="chinese" class="py-24 px-6 bg-brand-lightSand border-y border-brand-sand/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <!-- Text Area -->
+                <div class="lg:w-1/2">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-brand-sand text-brand-olive text-sm font-medium mb-6">
+                        <i class="fa-solid fa-feather-pointed"></i> 
+                        <span class="lang-zh">旗下高端子品牌</span><span class="lang-en">Premium Sub-brand</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-brand-ink mb-4">
+                        <span class="lang-zh">启未华文</span><span class="lang-en">Keyway Chinese</span>
+                    </h2>
+                    <h3 class="text-2xl font-serif text-brand-olive mb-6">
+                        <span class="lang-zh">Keyway Chinese</span><span class="lang-en">Mastering Chinese</span>
+                    </h3>
+                    
+                    <p class="text-brand-ink/80 text-lg mb-8 leading-relaxed">
+                        <span class="lang-zh">专注于中文学术能力与考试体系。面向新加坡本地及新移民学生，提供从 PSLE 到 O-Level 乃至 IB 中文的系统课程。不仅提升成绩，更建立中文思辨能力与文化理解力。</span>
+                        <span class="lang-en">Focusing on Chinese academic skills and exam systems for local and immigrant students in Singapore. We provide systemic courses from PSLE to O-Level and IB Chinese, enhancing both grades and critical thinking.</span>
+                    </p>
+                    
+                    <div class="space-y-8 relative pl-6 border-l-2 border-brand-sand/50">
+                        <!-- Timeline Item 1 -->
+                        <div class="relative timeline-dot">
+                            <h4 class="font-serif font-bold text-lg text-brand-ink mb-1">
+                                <span class="lang-zh">【基础】PSLE 小学华文</span><span class="lang-en">[Foundation] PSLE Primary Chinese</span>
+                            </h4>
+                            <p class="text-brand-ink/70 text-sm">
+                                <span class="lang-zh">PSLE提分与DSA能力培养。打牢听说读写基础，实现稳定提分与表达自信。</span>
+                                <span class="lang-en">PSLE score boost and DSA prep. Solidify foundational skills to achieve steady improvement and expressive confidence.</span>
+                            </p>
+                        </div>
+                        <!-- Timeline Item 2 -->
+                        <div class="relative timeline-dot">
+                            <h4 class="font-serif font-bold text-lg text-brand-ink mb-1">
+                                <span class="lang-zh">【进阶】O-Level / IGCSE</span><span class="lang-en">[Advanced] O-Level / IGCSE</span>
+                            </h4>
+                            <p class="text-brand-ink/70 text-sm">
+                                <span class="lang-zh">慧读慧写系统课程。夯实语言素养，从应试能力升级为学术表达与分析能力。</span>
+                                <span class="lang-en">Smart Reading & Writing. Upgrade from basic exam skills to academic analysis and expression.</span>
+                            </p>
+                        </div>
+                        <!-- Timeline Item 3 -->
+                        <div class="relative timeline-dot">
+                            <h4 class="font-serif font-bold text-lg text-brand-ink mb-1">
+                                <span class="lang-zh">【高阶】IB 中文思辨</span><span class="lang-en">[Higher-Level] IB Chinese</span>
+                            </h4>
+                            <p class="text-brand-ink/70 text-sm">
+                                <span class="lang-zh">Paper 1写作与批判性阅读。培养高阶思辨与论证能力，以中文表达复杂观点。</span>
+                                <span class="lang-en">Paper 1 Writing & Critical Reading. Cultivate advanced reasoning to express complex ideas in Chinese.</span>
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-10 bg-white p-6 rounded-2xl border border-brand-sand/40 shadow-sm inline-block">
+                        <p class="font-serif font-medium text-brand-ink flex items-center gap-3">
+                            <i class="fa-solid fa-quote-left text-brand-sand text-2xl"></i>
+                            <span class="lang-zh">以语言为基础，以思辨为核心。</span>
+                            <span class="lang-en">Language as the foundation, critical thinking as the core.</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Image Area -->
+                <div class="lg:w-1/2 relative w-full h-[600px]">
+                    <div class="absolute inset-0 bg-brand-olive rounded-[40px] transform -rotate-3 scale-95 opacity-10"></div>
+                    <img src="https://images.unsplash.com/photo-1545622783-b3e021430fee?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="" class="w-full h-full object-cover rounded-[40px] shadow-soft relative z-10">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section id="contact" class="py-24 px-6 bg-brand-white relative">
+        <div class="max-w-5xl mx-auto bg-brand-ink rounded-[40px] p-12 lg:p-20 text-center relative overflow-hidden shadow-2xl">
+            <!-- decorative circles -->
+            <div class="absolute top-[-50%] left-[-10%] w-96 h-96 border-[40px] border-white/5 rounded-full"></div>
+            <div class="absolute bottom-[-50%] right-[-10%] w-96 h-96 border-[40px] border-white/5 rounded-full"></div>
+
+            <div class="relative z-10">
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6">
+                    <span class="lang-zh">开启孩子的成长路径</span><span class="lang-en">Start the Growth Journey</span>
+                </h2>
+                <p class="text-brand-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+                    <span class="lang-zh">让孩子少走弯路，是教育最大的价值。<br>欢迎预约免费的专业测评与试听，为您孩子量身定制专属升学规划。</span>
+                    <span class="lang-en">The greatest value of education is preventing detours.<br>Book a free professional assessment to customize your child's pathway.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-brand-yellow text-brand-ink font-bold text-lg px-8 lg:px-10 py-4 rounded-full hover:bg-yellow-400 transition-all shadow-float hover:-translate-y-1">
+                        <span class="lang-zh">立即预约测评</span><span class="lang-en">Book Assessment Now</span>
+                    </button>
+                    <button class="bg-transparent border border-white/30 text-white font-medium text-lg px-8 lg:px-10 py-4 rounded-full hover:bg-white/10 transition-all">
+                        <span class="lang-zh">在线咨询客服</span><span class="lang-en">Consult Online</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-white border-t border-brand-sand/50 pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-12">
+            <div class="md:col-span-2">
+                <div class="mb-6">
+                    <img src="https://raw.githubusercontent.com/NomadZhang/Kiwi/main/assets/images/%E5%90%AF%E6%9C%AA%E6%95%99%E8%82%B2.png" alt="启未教育 Keyway Education" class="h-10 md:h-12 w-auto object-contain" onerror="this.src='https://placehold.co/250x70/F2C24A/263238?text=Keyway+Education+Logo'">
+                </div>
+                <p class="text-brand-ink/70 text-sm leading-relaxed max-w-sm mb-6">
+                    <span class="lang-zh">专注服务新移民家庭，构建从语言突破到学术跃迁的一站式成长体系。启发于微，行远于未。</span>
+                    <span class="lang-en">Dedicated to new immigrant families, building a one-stop growth system from language breakthroughs to academic leaps.</span>
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-weixin"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-serif font-bold text-brand-ink mb-6">
+                    <span class="lang-zh">快捷链接</span><span class="lang-en">Quick Links</span>
+                </h4>
+                <ul class="space-y-3 text-sm text-brand-ink/70">
+                    <li><a href="#about" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">关于我们</span><span class="lang-en">About Us</span>
+                    </a></li>
+                    <li><a href="#courses" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">国际英文路径</span><span class="lang-en">English Pathway</span>
+                    </a></li>
+                    <li><a href="#chinese" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">启未华文课程</span><span class="lang-en">Chinese Courses</span>
+                    </a></li>
+                    <li><a href="#advantages" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">为什么选择我们</span><span class="lang-en">Why Choose Us</span>
+                    </a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-serif font-bold text-brand-ink mb-6">
+                    <span class="lang-zh">联系我们</span><span class="lang-en">Contact Us</span>
+                </h4>
+                <ul class="space-y-4 text-sm text-brand-ink/70">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot mt-1 text-brand-olive"></i>
+                        <span>
+                            <span class="lang-zh">新加坡校区地址 (示例)<br>123 Education Hub, Singapore</span>
+                            <span class="lang-en">Singapore Campus (Example)<br>123 Education Hub, Singapore</span>
+                        </span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-brand-olive"></i>
+                        <span>+65 8888 8888</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-envelope text-brand-olive"></i>
+                        <span>contact@keyway.edu.sg</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto border-t border-brand-sand/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-brand-ink/50">© 2024 Keyway Education 启未教育. All rights reserved.</p>
+            <div class="flex gap-4 text-xs text-brand-ink/50">
+                <a href="#" class="hover:text-brand-ink">
+                    <span class="lang-zh">隐私政策</span><span class="lang-en">Privacy Policy</span>
+                </a>
+                <a href="#" class="hover:text-brand-ink">
+                    <span class="lang-zh">服务条款</span><span class="lang-en">Terms of Service</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive JS -->
+    <script>
+        // Language Switcher Logic
+        const langBtn = document.getElementById('lang-btn');
+        const langDropdown = document.getElementById('lang-dropdown');
+        const langChevron = document.getElementById('lang-chevron');
+        const htmlElement = document.documentElement;
+
+        // Toggle dropdown
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isHidden = langDropdown.classList.contains('hidden');
+            if (isHidden) {
+                langDropdown.classList.remove('hidden');
+                // slight delay for transition effect
+                setTimeout(() => {
+                    langDropdown.classList.remove('opacity-0', 'scale-95');
+                    langDropdown.classList.add('opacity-100', 'scale-100');
+                    langChevron.classList.add('rotate-180');
+                }, 10);
+            } else {
+                closeLangDropdown();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!langDropdown.contains(e.target)) {
+                closeLangDropdown();
+            }
+        });
+
+        function closeLangDropdown() {
+            langDropdown.classList.remove('opacity-100', 'scale-100');
+            langDropdown.classList.add('opacity-0', 'scale-95');
+            langChevron.classList.remove('rotate-180');
+            setTimeout(() => {
+                langDropdown.classList.add('hidden');
+            }, 150); // match transition duration
+        }
+
+        // Switch Language
+        function switchLang(langCode) {
+            htmlElement.setAttribute('lang', langCode);
+            closeLangDropdown();
+            
+            // Update Active Styling in Dropdown
+            const zhBtn = document.querySelector('.lang-opt-zh');
+            const enBtn = document.querySelector('.lang-opt-en');
+            
+            if (langCode === 'zh-CN') {
+                zhBtn.classList.add('text-brand-olive', 'font-medium');
+                zhBtn.classList.remove('text-brand-ink');
+                enBtn.classList.add('text-brand-ink');
+                enBtn.classList.remove('text-brand-olive', 'font-medium');
+            } else {
+                enBtn.classList.add('text-brand-olive', 'font-medium');
+                enBtn.classList.remove('text-brand-ink');
+                zhBtn.classList.add('text-brand-ink');
+                zhBtn.classList.remove('text-brand-olive', 'font-medium');
+            }
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+        });
+
+        // Navbar blur and shadow on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.add('py-4');
+                navbar.classList.remove('py-2');
+            }
+        });
+    </script>
+</body>
+</html>

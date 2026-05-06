@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>启未华文 Keyway Chinese | 培养高阶中文思辨与学术能力</title>
+    
+    <!-- Fonts: Noto Serif SC (Headings) & Noto Sans SC (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            white: '#FAFAF7',   /* 洁白色：干净纯粹 */
+                            sand: '#E8DFC5',    /* 沙色：温暖柔和 */
+                            yellow: '#F2C24A',  /* 金芥黄：品牌主色/按钮 */
+                            ink: '#263238',     /* 墨灰：文字主色 */
+                            olive: '#7E8B63',   /* 橄榄绿：辅助/强调色 */
+                            lightSand: '#F5F0E6' /* 浅沙色：用于浅色区块背景 */
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans SC"', 'sans-serif'],
+                        serif: ['"Noto Serif SC"', 'serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 20px 40px -15px rgba(38, 50, 56, 0.06)',
+                        'float': '0 30px 60px -20px rgba(126, 139, 99, 0.12)',
+                        'card': '0 10px 30px -10px rgba(232, 223, 197, 0.5)'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: theme('colors.brand.white');
+            color: theme('colors.brand.ink');
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 柔和的点状背景纹理，增加纸张质感 */
+        .bg-texture {
+            background-image: radial-gradient(theme('colors.brand.sand') 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Language Toggle Logic - Core */
+        html[lang="zh-CN"] .lang-en { display: none !important; }
+        html[lang="en"] .lang-zh { display: none !important; }
+
+        /* Optimize Font for English slightly */
+        html[lang="en"] body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            letter-spacing: 0.01em;
+        }
+        html[lang="en"] h1, html[lang="en"] h2, html[lang="en"] h3, html[lang="en"] h4, html[lang="en"] .font-serif {
+            font-family: 'Georgia', serif;
+        }
+
+        /* 课程阶段连接线 */
+        .step-line::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -32px;
+            width: 2px;
+            height: 32px;
+            background: linear-gradient(to bottom, theme('colors.brand.sand'), transparent);
+            transform: translateX(-50%);
+        }
+        @media (min-width: 1024px) {
+            .step-line::after {
+                left: auto;
+                right: -32px;
+                top: 50%;
+                width: 32px;
+                height: 2px;
+                background: linear-gradient(to right, theme('colors.brand.sand'), transparent);
+                transform: translateY(-50%);
+            }
+        }
+        .step-line:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <!-- 顶部导航栏 (轻量版) -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+        <div id="navbar-inner" class="max-w-[1400px] mx-auto px-6 py-4 transition-all duration-300 flex justify-between items-center backdrop-blur-xl bg-brand-white/90 shadow-sm border-b border-brand-sand/40 rounded-b-3xl">
+            <div class="flex items-center gap-3 md:gap-4 shrink-0">
+                <!-- 返回主站按钮 -->
+                <a href="kiwi.html" class="text-brand-olive hover:text-brand-ink transition-colors flex items-center gap-1.5 md:gap-2 text-xs md:text-sm font-medium border-r border-brand-sand pr-3 md:pr-4">
+                    <i class="fa-solid fa-arrow-left"></i> <span class="lang-zh">启未教育</span><span class="lang-en">Keyway Ed</span>
+                </a>
+                
+                <!-- 启未华文 Logo 占位 -->
+                <a href="#" class="font-serif font-bold text-lg md:text-xl text-brand-ink tracking-widest flex items-baseline gap-1.5 hover:text-brand-olive transition-colors">
+                    <span class="lang-zh">启未华文</span><span class="lang-en">Keyway Chinese</span>
+                </a>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-5 lg:space-x-8 text-sm font-medium">
+                <a href="#philosophy" class="text-brand-ink hover:text-brand-olive transition-colors whitespace-nowrap">
+                    <span class="lang-zh">教学理念</span><span class="lang-en">Philosophy</span>
+                </a>
+                <a href="#curriculum" class="text-brand-ink hover:text-brand-olive transition-colors whitespace-nowrap">
+                    <span class="lang-zh">课程体系</span><span class="lang-en">Curriculum</span>
+                </a>
+                <a href="#advantages" class="text-brand-ink hover:text-brand-olive transition-colors whitespace-nowrap">
+                    <span class="lang-zh">核心优势</span><span class="lang-en">Advantages</span>
+                </a>
+                
+                <!-- Language Switcher Component -->
+                <div class="relative ml-1 shrink-0">
+                    <button id="lang-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-brand-sand shadow-sm bg-white hover:bg-brand-lightSand transition-colors text-brand-ink focus:outline-none focus:ring-2 focus:ring-brand-olive/20">
+                        <span class="lang-zh font-medium">中文</span>
+                        <span class="lang-en font-medium">English</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-brand-ink/60 transition-transform duration-200" id="lang-chevron"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="lang-dropdown" class="absolute top-full right-0 mt-2 w-28 bg-white rounded-xl shadow-lg border border-brand-sand/30 py-1.5 hidden flex-col z-50 transform origin-top-right transition-all opacity-0 scale-95">
+                        <button class="text-left px-4 py-2 text-sm hover:bg-brand-lightSand transition-colors font-medium text-brand-olive lang-opt-zh" onclick="switchLang('zh-CN')">中文</button>
+                        <button class="text-left px-4 py-2 text-sm hover:bg-brand-lightSand transition-colors text-brand-ink lang-opt-en" onclick="switchLang('en')">English</button>
+                    </div>
+                </div>
+
+                <a href="#contact" class="bg-brand-ink text-brand-white px-6 py-2.5 rounded-full hover:bg-brand-olive transition-all duration-300 shadow-md whitespace-nowrap shrink-0">
+                    <span class="lang-zh">预约中文测评</span><span class="lang-en">Book Assessment</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首屏主视觉 (Hero Section) -->
+    <section class="relative pt-40 pb-24 lg:pt-56 lg:pb-32 px-6 overflow-hidden bg-brand-white bg-texture">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-lightSand rounded-full mix-blend-multiply blur-3xl opacity-60 translate-x-1/3 -translate-y-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-brand-sand/30 rounded-full mix-blend-multiply blur-3xl opacity-50 -translate-x-1/4 translate-y-1/4"></div>
+        
+        <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+            <!-- 文本区域 -->
+            <div class="lg:col-span-6 lg:pr-10">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-brand-sand text-brand-olive text-xs font-medium mb-8 shadow-sm">
+                    <i class="fa-solid fa-feather-pointed"></i> 
+                    <span class="lang-zh">启未教育旗下高端华文品牌</span>
+                    <span class="lang-en">Premium Chinese Brand by Keyway</span>
+                </div>
+                
+                <h1 class="text-5xl lg:text-[4rem] font-serif font-bold text-brand-ink leading-[1.2] lg:leading-[1.1] mb-6">
+                    <span class="lang-zh">不仅提升成绩，<br>更建立<br></span>
+                    <span class="lang-en">Not just grades,<br>but building<br></span>
+                    <span class="text-brand-olive relative z-10 inline-block mt-3 mb-1">
+                        <span class="lang-zh">中文思辨能力</span>
+                        <span class="lang-en">Critical Thinking</span>
+                        <svg class="absolute w-full h-3 -bottom-1 left-0 text-brand-yellow -z-10" viewBox="0 0 100 20" preserveAspectRatio="none"><path d="M0 15 Q 50 0 100 15" stroke="currentColor" stroke-width="5" fill="none"/></svg>
+                    </span><br>
+                    <span class="lang-zh">与文化理解力。</span>
+                    <span class="lang-en">& Cultural Empathy.</span>
+                </h1>
+                
+                <p class="text-lg text-brand-ink/75 mb-10 leading-relaxed font-light">
+                    <span class="lang-zh">面向新加坡本地及新移民学生，提供从 <strong class="text-brand-ink font-medium">PSLE</strong> 到 <strong class="text-brand-ink font-medium">O-Level</strong> 乃至 <strong class="text-brand-ink font-medium">IB 中文</strong>的系统课程。以语言为基础，以思辨为核心，打通国际化中文学术路径。</span>
+                    <span class="lang-en">For local and new immigrant students in Singapore, offering systematic courses from <strong class="text-brand-ink font-medium">PSLE</strong> to <strong class="text-brand-ink font-medium">O-Level</strong> and <strong class="text-brand-ink font-medium">IB Chinese</strong>. Language as foundation, critical thinking at the core.</span>
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="#curriculum" class="bg-brand-ink text-brand-white font-medium px-8 py-4 rounded-full hover:bg-brand-olive transition-all duration-300 shadow-float hover:-translate-y-1 whitespace-nowrap">
+                        <span class="lang-zh">探索课程体系</span><span class="lang-en">Explore Curriculum</span>
+                    </a>
+                    <a href="#contact" class="bg-white border border-brand-sand text-brand-ink font-medium px-8 py-4 rounded-full hover:bg-brand-lightSand transition-all duration-300 whitespace-nowrap">
+                        <span class="lang-zh">了解升学规划</span><span class="lang-en">Pathway Planning</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 图片区域 -->
+            <div class="lg:col-span-6 relative">
+                <div class="absolute inset-0 bg-brand-yellow rounded-[2.5rem] transform rotate-3 scale-100 opacity-20 transition-transform duration-700 hover:rotate-6"></div>
+                <div class="absolute inset-0 border border-brand-olive rounded-[2.5rem] transform -rotate-2 scale-105 opacity-30"></div>
+                
+                <img src="https://images.unsplash.com/photo-1545622783-b3e021430fee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Student studying Chinese" class="rounded-[2.5rem] shadow-2xl relative z-10 object-cover h-[550px] w-full" onerror="this.src='https://placehold.co/800x600/E8DFC5/263238?text=Keyway+Chinese'">
+                
+                <div class="absolute -bottom-8 lg:-left-12 left-6 bg-white p-6 rounded-3xl shadow-float z-20 max-w-xs border border-brand-sand/50">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-olive text-xl shrink-0 mt-1">
+                            <i class="fa-solid fa-quote-left"></i>
+                        </div>
+                        <div>
+                            <p class="font-serif font-bold text-brand-ink text-lg leading-snug mb-2">
+                                <span class="lang-zh">考试+能力 双轨并行</span>
+                                <span class="lang-en">Dual-Track Mastery</span>
+                            </p>
+                            <p class="text-xs text-brand-ink/60">
+                                <span class="lang-zh">拒绝机械刷题，培养“有观点、有逻辑、有表达”的高阶素养。</span>
+                                <span class="lang-en">Beyond rote memorization. Cultivating advanced literacy with true expression.</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教学理念 (Philosophy) -->
+    <section id="philosophy" class="py-24 px-6 bg-brand-lightSand relative">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h3 class="text-brand-olive font-medium tracking-widest text-sm uppercase mb-3">Teaching Philosophy</h3>
+            <h2 class="text-4xl font-serif font-bold text-brand-ink mb-6">
+                <span class="lang-zh">中文学习，不止于语言</span>
+                <span class="lang-en">Chinese Learning, Beyond Language</span>
+            </h2>
+            <div class="w-12 h-1 bg-brand-yellow mx-auto rounded-full mb-8"></div>
+            <p class="text-brand-ink/80 text-lg leading-relaxed font-light">
+                <span class="lang-zh">我们认为，中文学习不仅是字词句的积累，更是<strong class="text-brand-olive font-medium">思维能力的构建、表达能力的提升与文化认同的建立</strong>。<br>启未华文致力于打破传统应试教育的局限，让孩子真正掌握一门终身受益的学术语言。</span>
+                <span class="lang-en">We believe learning Chinese isn't just accumulating words; it is <strong class="text-brand-olive font-medium">building critical thinking, enhancing expression, and establishing cultural identity</strong>.<br>Keyway Chinese aims to break the limits of traditional exam-oriented education, helping children master an academic language for lifelong benefit.</span>
+            </p>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="bg-brand-white p-10 rounded-[2rem] shadow-card text-center hover:-translate-y-2 transition-transform duration-300">
+                <div class="w-16 h-16 mx-auto bg-brand-sand/40 rounded-2xl flex items-center justify-center text-brand-olive text-2xl mb-6">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                    <span class="lang-zh">思维构建</span><span class="lang-en">Critical Thinking</span>
+                </h4>
+                <p class="text-brand-ink/70 text-sm leading-relaxed">
+                    <span class="lang-zh">培养逻辑思辨能力，学会多角度分析问题，从被动接受转变为主动思考。</span>
+                    <span class="lang-en">Cultivate logical thinking, learn to analyze problems from multiple perspectives, and shift from passive acceptance to active thinking.</span>
+                </p>
+            </div>
+            
+            <div class="bg-brand-white p-10 rounded-[2rem] shadow-card text-center hover:-translate-y-2 transition-transform duration-300">
+                <div class="w-16 h-16 mx-auto bg-brand-sand/40 rounded-2xl flex items-center justify-center text-brand-olive text-2xl mb-6">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                    <span class="lang-zh">精准表达</span><span class="lang-en">Precise Expression</span>
+                </h4>
+                <p class="text-brand-ink/70 text-sm leading-relaxed">
+                    <span class="lang-zh">突破日常交流的限制，掌握学术级的高级词汇与复杂句式，实现观点的高效输出。</span>
+                    <span class="lang-en">Break through the limits of daily communication, master advanced academic vocabulary, and achieve highly efficient expression of ideas.</span>
+                </p>
+            </div>
+
+            <div class="bg-brand-white p-10 rounded-[2rem] shadow-card text-center hover:-translate-y-2 transition-transform duration-300">
+                <div class="w-16 h-16 mx-auto bg-brand-sand/40 rounded-2xl flex items-center justify-center text-brand-olive text-2xl mb-6">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                </div>
+                <h4 class="font-serif font-bold text-xl text-brand-ink mb-3">
+                    <span class="lang-zh">文化认同</span><span class="lang-en">Cultural Identity</span>
+                </h4>
+                <p class="text-brand-ink/70 text-sm leading-relaxed">
+                    <span class="lang-zh">深度解析文学作品与社会现象，建立跨文化视野，增强新移民家庭的文化根基。</span>
+                    <span class="lang-en">Deeply analyze literary works and social phenomena, build a cross-cultural perspective, and strengthen the cultural roots of new immigrant families.</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程体系 (Curriculum System) - 金字塔结构设计 -->
+    <section id="curriculum" class="py-32 px-6 bg-brand-white relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+                <div>
+                    <h3 class="text-brand-olive font-medium tracking-widest text-sm uppercase mb-3">Curriculum System</h3>
+                    <h2 class="text-4xl md:text-5xl font-serif font-bold text-brand-ink">
+                        <span class="lang-zh">分层跃迁系统课程</span>
+                        <span class="lang-en">Tiered Progression Curriculum</span>
+                    </h2>
+                </div>
+                <p class="text-brand-ink/70 max-w-md md:text-right font-light">
+                    <span class="lang-zh">从夯实基础到高阶思辨，构建一条完整的中文学术成长路径，完美匹配新加坡本地考试与国际升学需求。</span>
+                    <span class="lang-en">From solidifying foundations to advanced critical thinking, building a complete academic growth path for Chinese that perfectly matches local and international needs.</span>
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 lg:gap-12 relative">
+                
+                <!-- 阶段 1: 基础 -->
+                <div class="relative step-line bg-brand-lightSand rounded-[2.5rem] p-8 lg:p-10 border border-brand-sand/50 shadow-soft z-10 hover:shadow-float transition-all group flex flex-col h-full">
+                    <div class="absolute -top-6 left-8 bg-brand-white border border-brand-sand px-5 py-2 rounded-full font-serif font-bold text-brand-ink shadow-sm flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-olive"></span> 
+                        <span class="lang-zh">【基础阶段】</span><span class="lang-en">[Foundation]</span>
+                    </div>
+                    <div class="mt-4 flex flex-col grow">
+                        <h3 class="text-2xl font-serif font-bold text-brand-ink mb-2">
+                            <span class="lang-zh">PSLE 小学华文</span><span class="lang-en">PSLE Primary Chinese</span>
+                        </h3>
+                        <p class="text-brand-olive text-sm font-medium mb-6">
+                            <span class="lang-zh">打牢基础，实现稳定提分</span><span class="lang-en">Solidify basics, steady score boost</span>
+                        </p>
+                        
+                        <ul class="space-y-4 mb-8 grow">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">PSLE 华文全方位提分课程</span><span class="lang-en">Comprehensive PSLE Score Boost</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">DSA 华文特长能力定制培养</span><span class="lang-en">Customized DSA Talent Training</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">阅读理解与规范写作基础强化</span><span class="lang-en">Foundation in Reading & Standard Writing</span>
+                                </span>
+                            </li>
+                        </ul>
+                        
+                        <div class="bg-brand-white rounded-2xl p-5 border border-brand-sand text-sm font-light text-brand-ink/80 mt-auto">
+                            <i class="fa-solid fa-bullseye text-brand-yellow mr-2"></i>
+                            <span class="lang-zh">解决拼音、错别字及表达匮乏问题，培养对中文的初步语感与自信。</span>
+                            <span class="lang-en">Resolve issues with Pinyin, typos, and poor expression, cultivating initial language intuition and confidence.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 阶段 2: 进阶 -->
+                <div class="relative step-line bg-brand-lightSand rounded-[2.5rem] p-8 lg:p-10 border border-brand-sand/50 shadow-soft z-10 hover:shadow-float transition-all group mt-12 lg:mt-0 flex flex-col h-full">
+                    <div class="absolute -top-6 left-8 bg-brand-white border border-brand-sand px-5 py-2 rounded-full font-serif font-bold text-brand-ink shadow-sm flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-brand-yellow"></span> 
+                        <span class="lang-zh">【进阶阶段】</span><span class="lang-en">[Advanced]</span>
+                    </div>
+                    <div class="mt-4 flex flex-col grow">
+                        <h3 class="text-2xl font-serif font-bold text-brand-ink mb-2">O-Level / IGCSE</h3>
+                        <p class="text-brand-olive text-sm font-medium mb-6">
+                            <span class="lang-zh">从应试升级为学术表达</span><span class="lang-en">Upgrade to academic expression</span>
+                        </p>
+                        
+                        <ul class="space-y-4 mb-8 grow">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">O-Level 华文系统冲刺课程</span><span class="lang-en">O-Level Chinese Systematic Sprint</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">IGCSE "慧读慧写"专研课程</span><span class="lang-en">IGCSE "Smart Read & Write" Specialization</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-olive mt-1 text-sm"></i>
+                                <span class="text-brand-ink/80 text-sm font-light">
+                                    <span class="lang-zh">实用文体与议论文进阶训练</span><span class="lang-en">Advanced Training in Argumentative Writing</span>
+                                </span>
+                            </li>
+                        </ul>
+                        
+                        <div class="bg-brand-white rounded-2xl p-5 border border-brand-sand text-sm font-light text-brand-ink/80 mt-auto">
+                            <i class="fa-solid fa-bullseye text-brand-yellow mr-2"></i>
+                            <span class="lang-zh">夯实语言素养，跳出套路模板，开始构建有逻辑的段落与清晰的个人观点。</span>
+                            <span class="lang-en">Consolidate language literacy, break away from templates, and build logical paragraphs with clear viewpoints.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 阶段 3: 高阶 -->
+                <div class="relative step-line bg-brand-ink text-brand-white rounded-[2.5rem] p-8 lg:p-10 shadow-soft z-10 hover:shadow-float transition-all group mt-12 lg:mt-0 flex flex-col h-full">
+                    <div class="absolute inset-0 rounded-[2.5rem] overflow-hidden pointer-events-none">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-brand-olive opacity-20 blur-2xl rounded-full"></div>
+                    </div>
+                    
+                    <div class="absolute -top-6 left-8 bg-brand-olive border border-brand-olive/50 px-5 py-2 rounded-full font-serif font-bold text-white shadow-sm flex items-center gap-2 z-20">
+                        <span class="w-2 h-2 rounded-full bg-brand-yellow"></span> 
+                        <span class="lang-zh">【高阶阶段】</span><span class="lang-en">[Higher-Level]</span>
+                    </div>
+                    <div class="mt-4 relative z-10 flex flex-col grow">
+                        <h3 class="text-2xl font-serif font-bold mb-2">
+                            <span class="lang-zh">IB 中文思辨</span><span class="lang-en">IB Chinese Critical Thinking</span>
+                        </h3>
+                        <p class="text-brand-sand text-sm font-medium mb-6">
+                            <span class="lang-zh">高阶思维，顶尖学术挑战</span><span class="lang-en">High-order thinking, top academic challenge</span>
+                        </p>
+                        
+                        <ul class="space-y-4 mb-8 grow">
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-yellow mt-1 text-sm"></i>
+                                <span class="text-white/80 text-sm font-light">
+                                    <span class="lang-zh">IB Paper 1 写作与文学分析</span><span class="lang-en">IB Paper 1 Writing & Literary Analysis</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-yellow mt-1 text-sm"></i>
+                                <span class="text-white/80 text-sm font-light">
+                                    <span class="lang-zh">中文思辨与深度批判性阅读</span><span class="lang-en">Chinese Critical Thinking & Deep Reading</span>
+                                </span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i class="fa-solid fa-check text-brand-yellow mt-1 text-sm"></i>
+                                <span class="text-white/80 text-sm font-light">
+                                    <span class="lang-zh">文学作品比较与全球问题探究</span><span class="lang-en">Comparative Literature & Global Issues</span>
+                                </span>
+                            </li>
+                        </ul>
+                        
+                        <div class="bg-white/10 rounded-2xl p-5 border border-white/20 text-sm font-light text-white/90 backdrop-blur-sm mt-auto mb-2">
+                            <i class="fa-solid fa-bullseye text-brand-yellow mr-2"></i>
+                            <span class="lang-zh">培养真正的高阶语言与思维能力，能够以深刻、严谨的中文表达极为复杂的学术观点。</span>
+                            <span class="lang-en">Cultivate true high-level language and thinking skills to express highly complex academic viewpoints with rigor.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心优势 (Core Advantages) -->
+    <section id="advantages" class="py-24 px-6 bg-brand-lightSand border-y border-brand-sand/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h3 class="text-brand-olive font-medium tracking-widest text-sm uppercase mb-3">Our Strengths</h3>
+                <h2 class="text-4xl font-serif font-bold text-brand-ink mb-6">
+                    <span class="lang-zh">为什么选择启未华文？</span><span class="lang-en">Why Choose Keyway Chinese?</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Advantage 1 -->
+                <div class="bg-brand-white p-8 rounded-[2rem] border border-brand-sand/40 hover:border-brand-olive/30 transition-colors flex flex-col h-full">
+                    <div class="text-brand-olive text-4xl mb-6 font-serif">01.</div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-4">
+                        <span class="lang-zh">本地考试体系深度经验</span><span class="lang-en">Deep Local Exam Experience</span>
+                    </h4>
+                    <p class="text-brand-ink/70 font-light leading-relaxed">
+                        <span class="lang-zh">深耕新加坡教育体系，实现 <strong class="text-brand-ink font-medium">PSLE / O-Level / DSA 全路径覆盖</strong>。我们的教研团队精准把握考试大纲与得分要点，帮助学生在激烈的本地竞争中脱颖而出。</span>
+                        <span class="lang-en">Deeply rooted in Singapore's education system, covering <strong class="text-brand-ink font-medium">PSLE / O-Level / DSA pathways</strong>. Our team accurately grasps exam syllabuses, helping students stand out in fierce local competition.</span>
+                    </p>
+                </div>
+                
+                <!-- Advantage 2 -->
+                <div class="bg-brand-white p-8 rounded-[2rem] border border-brand-sand/40 hover:border-brand-olive/30 transition-colors flex flex-col h-full">
+                    <div class="text-brand-olive text-4xl mb-6 font-serif">02.</div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-4">
+                        <span class="lang-zh">思辨写作能力独家培养</span><span class="lang-en">Exclusive Critical Writing</span>
+                    </h4>
+                    <p class="text-brand-ink/70 font-light leading-relaxed">
+                        <span class="lang-zh">打破“死记硬背好词好句”的陈旧观念。我们引导学生阅读社会纪实、文学名著，培养独立思考能力，确保写出的文章<strong class="text-brand-ink font-medium">“有观点、有逻辑、有真情实感”</strong>。</span>
+                        <span class="lang-en">Breaking the outdated concept of rote memorization. We guide students to read and cultivate independent thinking, ensuring their writing has <strong class="text-brand-ink font-medium">'viewpoints, logic, and true feelings'</strong>.</span>
+                    </p>
+                </div>
+
+                <!-- Advantage 3 -->
+                <div class="bg-brand-white p-8 rounded-[2rem] border border-brand-sand/40 hover:border-brand-olive/30 transition-colors flex flex-col h-full">
+                    <div class="text-brand-olive text-4xl mb-6 font-serif">03.</div>
+                    <h4 class="font-serif font-bold text-xl text-brand-ink mb-4">
+                        <span class="lang-zh">长期学习路径一体化设计</span><span class="lang-en">Integrated Long-Term Paths</span>
+                    </h4>
+                    <p class="text-brand-ink/70 font-light leading-relaxed">
+                        <span class="lang-zh">拒绝短视的补习模式。我们为每位学生建立从小学到高中的长线学术档案，<strong class="text-brand-ink font-medium">定制不同阶段的成长目标</strong>，陪伴孩子实现稳定的能力跃迁。</span>
+                        <span class="lang-en">Rejecting short-sighted tutoring. We build long-term academic profiles from primary to high school, <strong class="text-brand-ink font-medium">customizing growth goals for different stages</strong>, to achieve steady capability leaps.</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部转化区 (CTA) -->
+    <section id="contact" class="py-24 px-6 bg-brand-white relative">
+        <div class="max-w-5xl mx-auto bg-brand-ink rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden shadow-2xl">
+            <div class="absolute top-[-40%] left-[-10%] w-80 h-80 border-[30px] border-brand-olive/20 rounded-full blur-sm"></div>
+            <div class="absolute bottom-[-40%] right-[-10%] w-96 h-96 border-[40px] border-brand-yellow/10 rounded-full blur-sm"></div>
+
+            <div class="relative z-10">
+                <i class="fa-solid fa-leaf text-brand-olive text-4xl mb-6 opacity-80"></i>
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-brand-white mb-6 leading-tight">
+                    <span class="lang-zh">让孩子少走弯路，<br>是教育最大的价值。</span>
+                    <span class="lang-en">Helping children avoid detours<br>is the greatest value of education.</span>
+                </h2>
+                <p class="text-brand-white/70 text-lg mb-10 max-w-xl mx-auto font-light leading-relaxed">
+                    <span class="lang-zh">欢迎预约启未华文免费专业测评与试听。<br>我们将通过科学评估，为您孩子量身定制专属的中文学习与升学规划。</span>
+                    <span class="lang-en">Welcome to book a free professional assessment with Keyway Chinese.<br>We will customize an exclusive learning and admission plan for your child.</span>
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-brand-yellow text-brand-ink font-bold text-lg px-10 py-4 rounded-full hover:bg-yellow-400 transition-all shadow-float hover:-translate-y-1">
+                        <span class="lang-zh">立即预约中文测评</span><span class="lang-en">Book Assessment Now</span>
+                    </button>
+                    <button class="bg-transparent border border-brand-white/30 text-brand-white font-medium text-lg px-10 py-4 rounded-full hover:bg-brand-white/10 transition-all">
+                        <span class="lang-zh">咨询课程详情</span><span class="lang-en">Consult Course Details</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 (Footer - 保持与主站一致风格) -->
+    <footer class="bg-brand-white border-t border-brand-sand/50 pt-16 pb-8 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-12">
+            <div class="md:col-span-2">
+                <div class="mb-6">
+                    <img src="https://raw.githubusercontent.com/NomadZhang/Kiwi/main/assets/images/%E5%90%AF%E6%9C%AA%E6%95%99%E8%82%B2.png" alt="启未教育 Keyway Education" class="h-10 md:h-12 w-auto object-contain" onerror="this.src='https://placehold.co/250x70/F2C24A/263238?text=Keyway+Education+Logo'">
+                </div>
+                <p class="text-brand-ink/70 text-sm leading-relaxed max-w-sm mb-6">
+                    <span class="lang-zh">专注服务新移民家庭，构建从语言突破到学术跃迁的一站式成长体系。启发于微，行远于未。</span>
+                    <span class="lang-en">Dedicated to new immigrant families, building a one-stop growth system from language breakthrough to academic leap. Inspire in Micro, Journey into Future.</span>
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-weixin"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-brand-lightSand flex items-center justify-center text-brand-ink hover:bg-brand-olive hover:text-white transition-colors">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-serif font-bold text-brand-ink mb-6">
+                    <span class="lang-zh">快速导航</span><span class="lang-en">Quick Links</span>
+                </h4>
+                <ul class="space-y-3 text-sm text-brand-ink/70">
+                    <li><a href="#philosophy" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">教学理念</span><span class="lang-en">Philosophy</span>
+                    </a></li>
+                    <li><a href="#curriculum" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">分层课程体系</span><span class="lang-en">Tiered Curriculum</span>
+                    </a></li>
+                    <li><a href="#advantages" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">我们的优势</span><span class="lang-en">Our Advantages</span>
+                    </a></li>
+                    <li><a href="kiwi.html" class="hover:text-brand-olive transition-colors">
+                        <span class="lang-zh">返回启未教育主页</span><span class="lang-en">Back to Keyway Education</span>
+                    </a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-serif font-bold text-brand-ink mb-6">
+                    <span class="lang-zh">联系我们</span><span class="lang-en">Contact Us</span>
+                </h4>
+                <ul class="space-y-4 text-sm text-brand-ink/70">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-location-dot mt-1 text-brand-olive"></i>
+                        <span>
+                            <span class="lang-zh">新加坡校区地址 (示例)<br>123 Education Hub, Singapore</span>
+                            <span class="lang-en">Singapore Campus (Example)<br>123 Education Hub, Singapore</span>
+                        </span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-brand-olive"></i>
+                        <span>+65 8888 8888</span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-envelope text-brand-olive"></i>
+                        <span>contact@keyway.edu.sg</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto border-t border-brand-sand/30 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-xs text-brand-ink/50">© 2024 Keyway Education 启未教育. All rights reserved.</p>
+            <div class="flex gap-4 text-xs text-brand-ink/50">
+                <a href="#" class="hover:text-brand-ink">
+                    <span class="lang-zh">隐私政策</span><span class="lang-en">Privacy Policy</span>
+                </a>
+                <a href="#" class="hover:text-brand-ink">
+                    <span class="lang-zh">服务条款</span><span class="lang-en">Terms of Service</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Navbar 滚动效果 -->
+    <script>
+        const navbarInner = document.getElementById('navbar-inner');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbarInner.classList.add('py-2', 'shadow-md');
+                navbarInner.classList.remove('py-4', 'shadow-sm');
+            } else {
+                navbarInner.classList.add('py-4', 'shadow-sm');
+                navbarInner.classList.remove('py-2', 'shadow-md');
+            }
+        });
+
+        // Language Switcher Logic
+        const langBtn = document.getElementById('lang-btn');
+        const langDropdown = document.getElementById('lang-dropdown');
+        const langChevron = document.getElementById('lang-chevron');
+        const htmlElement = document.documentElement;
+
+        if (langBtn) {
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isHidden = langDropdown.classList.contains('hidden');
+                if (isHidden) {
+                    langDropdown.classList.remove('hidden');
+                    setTimeout(() => {
+                        langDropdown.classList.remove('opacity-0', 'scale-95');
+                        langDropdown.classList.add('opacity-100', 'scale-100');
+                        langChevron.classList.add('rotate-180');
+                    }, 10);
+                } else {
+                    closeLangDropdown();
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (langDropdown && !langDropdown.contains(e.target)) {
+                    closeLangDropdown();
+                }
+            });
+        }
+
+        function closeLangDropdown() {
+            if(!langDropdown) return;
+            langDropdown.classList.remove('opacity-100', 'scale-100');
+            langDropdown.classList.add('opacity-0', 'scale-95');
+            langChevron.classList.remove('rotate-180');
+            setTimeout(() => {
+                langDropdown.classList.add('hidden');
+            }, 150);
+        }
+
+        function switchLang(langCode) {
+            htmlElement.setAttribute('lang', langCode);
+            closeLangDropdown();
+            
+            const zhBtn = document.querySelector('.lang-opt-zh');
+            const enBtn = document.querySelector('.lang-opt-en');
+            
+            if (zhBtn && enBtn) {
+                if (langCode === 'zh-CN') {
+                    zhBtn.classList.add('text-brand-olive', 'font-medium');
+                    zhBtn.classList.remove('text-brand-ink');
+                    enBtn.classList.add('text-brand-ink');
+                    enBtn.classList.remove('text-brand-olive', 'font-medium');
+                } else {
+                    enBtn.classList.add('text-brand-olive', 'font-medium');
+                    enBtn.classList.remove('text-brand-ink');
+                    zhBtn.classList.add('text-brand-ink');
+                    zhBtn.classList.remove('text-brand-olive', 'font-medium');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
